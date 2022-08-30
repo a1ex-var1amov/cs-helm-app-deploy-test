@@ -11,6 +11,7 @@ on:
 env:
   SYSDIG_URL: https://us2.app.sysdig.com
   APP_NAME: my-node-test
+  REGISTRY: ghcr.io
 
 jobs:
   build:
@@ -35,7 +36,15 @@ jobs:
           org.opencontainers.image.title=${{ env.APP_NAME }}
 
     - name: Login to GHCR
-      run: docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }}
+      run: docker login ${{ env.REGISTRY }} -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }}
 
     - name: Build App Image
       run: docker build application --file application/Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
+
+#TODO: Add the App and Image validation steps
+
+    - name: Tag the Image
+      run: docker tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }} ${{ env.REGISTRY }}/${{ env.APP_NAME }}:dev
+
+    - name: Push the Image
+      run: docker push ${{ env.REGISTRY }}/${{ env.APP_NAME }}:dev
