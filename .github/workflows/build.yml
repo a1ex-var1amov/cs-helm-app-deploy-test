@@ -1,5 +1,5 @@
 ---
-name: build-alexv-webhook
+name: nodejs application image build
 
 on:
   workflow_dispatch:
