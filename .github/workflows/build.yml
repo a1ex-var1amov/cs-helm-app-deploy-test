@@ -35,4 +35,4 @@ jobs:
           org.opencontainers.image.title=${{ env.APP_NAME }}
 
     - name: Build App Image
-      run: docker build application --file Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
+      run: docker build application --file application/Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
