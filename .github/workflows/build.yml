@@ -41,6 +41,20 @@ jobs:
     - name: Build App Image
       run: docker build application --file application/Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
 
+    - name: Download Goss
+      run: curl -L https://goss.rocks/install | sudo sh
+
+    - name: Check Goss
+      run: goss --version
+
+    - name: Add Goss to PATH
+      run: export PATH="/usr/local/bin/:$PATH"
+  
+    - name: Execute a Fog test
+      env:
+        GOSS_FILE: tests/goss.yaml
+      run: dgoss run -dit --name ${{ env.APP_NAME }} -p 3000:3000 ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
+
 #TODO: Add the App and Image validation steps
 
     - name: Tag the Image
@@ -48,3 +62,6 @@ jobs:
 
     - name: Push the Image
       run: docker push ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }}:dev
+
+#TODO: Deploy
+

@@ -1,0 +1,28 @@
+file:
+  /usr/src/app/app.js:
+    exists: true
+    mode: "0644"
+    size: 593
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+command:
+  node:
+    exit-status: 0
+    stdout: []
+    stderr: []
+    timeout: 10000
+http:
+  http://0.0.0.0:3000:
+    status: 200
+    allow-insecure: true
+    no-follow-redirects: false
+    timeout: 5000
+    body: []
+  http://localhost:3000:
+    status: 200
+    allow-insecure: true
+    no-follow-redirects: false
+    timeout: 5000
+    body: []
