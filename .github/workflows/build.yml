@@ -47,4 +47,4 @@ jobs:
       run: docker tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }} ${{ env.REGISTRY }}/${{ env.APP_NAME }}:dev
 
     - name: Push the Image
-      run: docker push ${{ env.REGISTRY }}/${{ env.APP_NAME }}:dev
+      run: docker push ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }}:dev
