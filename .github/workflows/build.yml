@@ -28,11 +28,11 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: ${{ APP_NAME }}
+        images: ${{ env.APP_NAME }}
         tags: |
-          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ TAG }}
+          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ get_version.name }}
         labels: |
-          org.opencontainers.image.title=${{ APP_NAME }}
+          org.opencontainers.image.title=${{ env.APP_NAME }}
 
     - name: Build App Image
       run: docker build application --file Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
