@@ -9,11 +9,8 @@ on:
 #   tags:
 #     - "v[0-9]+.[0-9]+.[0-9]+"
 env:
-  IMAGE_NAME: alexv-webhook
   SYSDIG_URL: https://us2.app.sysdig.com
-  SYSDIG_SCANNER: new
-  IMAGE_REG: alexvsandbox.jfrog.io
-  IMAGE_REPO: demo-builds
+  APP_NAME: my-node-test
 
 jobs:
   build:
