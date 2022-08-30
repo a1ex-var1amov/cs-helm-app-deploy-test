@@ -1,0 +1,41 @@
+---
+name: build-alexv-webhook
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+#   tags:
+#     - "v[0-9]+.[0-9]+.[0-9]+"
+env:
+  IMAGE_NAME: alexv-webhook
+  SYSDIG_URL: https://us2.app.sysdig.com
+  SYSDIG_SCANNER: new
+  IMAGE_REG: alexvsandbox.jfrog.io
+  IMAGE_REPO: demo-builds
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+  
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+    
+    - name: Docker metadata tag set
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: ${{ APP_NAME }}
+        tags: |
+          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ TAG }}
+        labels: |
+          org.opencontainers.image.title=${{ APP_NAME }}
+
+    - name: Build App Image
+      run: docker build application --file Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
