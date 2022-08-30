@@ -34,5 +34,8 @@ jobs:
         labels: |
           org.opencontainers.image.title=${{ env.APP_NAME }}
 
+    - name: Login to GHCR
+      run: docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASSWORD }}
+
     - name: Build App Image
       run: docker build application --file application/Dockerfile --tag ${{ env.APP_NAME }}:bld-${{ steps.date.outputs.date }}
