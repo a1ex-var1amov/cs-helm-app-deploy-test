@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: github-actions-deploy-rb
+  namespace: github-actions-deploy
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: github-actions-deploy-admin
+subjects:
+- namespace: github-actions-deploy
+  kind: ServiceAccount
+  name: github-actions-deploy
