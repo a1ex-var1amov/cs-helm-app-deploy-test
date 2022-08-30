@@ -22,7 +22,7 @@ jobs:
   
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     
     - name: Docker metadata tag set
       id: meta
@@ -30,7 +30,7 @@ jobs:
       with:
         images: ${{ env.APP_NAME }}
         tags: |
-          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ get_version.name }}
+          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ steps.get_version.outputs.VERSION }}
         labels: |
           org.opencontainers.image.title=${{ env.APP_NAME }}
 
