@@ -93,7 +93,7 @@ jobs:
         masterBranchName: main
         targetBranch: dev
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
-        createPR: true
+        createPR: false
         labels: test
 #TODO: Deploy
 
