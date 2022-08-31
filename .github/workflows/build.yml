@@ -6,9 +6,9 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '.github/**/*.yml'
-      - '.gitignore'
+#    paths-ignore:
+#      - '.github/**/*.yml'
+#      - '.gitignore'
 #    tags:
 #      - '*'
 #      - "v[0-9]+.[0-9]+.[0-9]+"
@@ -39,8 +39,6 @@ jobs:
 #          type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ steps.get_version.outputs.VERSION }}
 #        labels: |
 #          org.opencontainers.image.title=${{ env.APP_NAME }}
-
-# Trigger it
 
     - name: Create Tag
       id: create_tag
