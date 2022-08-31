@@ -40,23 +40,28 @@ jobs:
 #        labels: |
 #          org.opencontainers.image.title=${{ env.APP_NAME }}
 
-    - name: Create Tag
-      id: create_tag
-      uses: jaywcjlove/create-tag-action@main
-      with:
-        test: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+    # - name: Create Tag
+    #   id: create_tag
+    #   uses: jaywcjlove/create-tag-action@main
+    #   with:
+    #     test: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
     
-    - name: Print it
-      run: |
-        echo "version - ${{ steps.create_tag.outputs.version }}"
-        echo "version || preversion - ${{ steps.create_tag.outputs.version || steps.create_tag.outputs.preversion }}"
-        echo "versionNumber - ${{ steps.create_tag.outputs.versionNumber }}"
-        echo "versionNumber || preversionNumber - ${{ steps.create_tag.outputs.versionNumber || steps.create_tag.outputs.preversionNumber }}"
-        echo "majorVersion - ${{ steps.create_tag.outputs.majorVersion }}"
-        echo "minorVersion - ${{ steps.create_tag.outputs.minorVersion }}"
-        echo "patchVersion - ${{ steps.create_tag.outputs.patchVersion }}"
-        echo "preversion - ${{ steps.create_tag.outputs.preversion }}"
-        echo "successful - ${{ steps.create_tag.outputs.successful }}"
+    # - name: Print it
+    #   run: |
+    #     echo "version - ${{ steps.create_tag.outputs.version }}"
+    #     echo "version || preversion - ${{ steps.create_tag.outputs.version || steps.create_tag.outputs.preversion }}"
+    #     echo "versionNumber - ${{ steps.create_tag.outputs.versionNumber }}"
+    #     echo "versionNumber || preversionNumber - ${{ steps.create_tag.outputs.versionNumber || steps.create_tag.outputs.preversionNumber }}"
+    #     echo "majorVersion - ${{ steps.create_tag.outputs.majorVersion }}"
+    #     echo "minorVersion - ${{ steps.create_tag.outputs.minorVersion }}"
+    #     echo "patchVersion - ${{ steps.create_tag.outputs.patchVersion }}"
+    #     echo "preversion - ${{ steps.create_tag.outputs.preversion }}"
+    #     echo "successful - ${{ steps.create_tag.outputs.successful }}"
+
+    - name: Bump version
+      uses: remorses/bump-version@js
+      with:
+        version_file: ./VERSION
 
     - name: Download Linter
       run: curl -LO "https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64"
