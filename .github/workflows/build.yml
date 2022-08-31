@@ -124,16 +124,21 @@ jobs:
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
         createPR: false
 
-    - name: 'Deploy to K8s'
-      uses: 'deliverybot/helm@v1'
-      if: success()
-      with:
-        release: 'nodejs-app'
-        namespace: 'github-actions-deploy'
-        chart: 'nodejs-app'
-        token: '${{ github.token }}'
-        values: |
-          image.tag: ${{ steps.get_version.outputs.VERSION }}
-      env:
-        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+    # - name: 'Deploy to K8s'
+    #   uses: 'deliverybot/helm@v1'
+    #   if: success()
+    #   with:
+    #     release: 'nodejs-app'
+    #     namespace: 'github-actions-deploy'
+    #     chart: 'nodejs-app'
+    #     token: '${{ github.token }}'
+    #     values: |
+    #       image.tag: ${{ steps.get_version.outputs.VERSION }}
+    #   env:
+    #     KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
+    - name: Deploy
+      uses: WyriHaximus/github-action-helm3@v2
+      with:
+        exec: helm upgrade ${{ env.APP_NAME }} ./helm/nodejs-app --install --wait --atomic --namespace=github-actions-deploy --set=app.name=${{ env.APP_NAME }} --values=./helm/nodejs-app/values.yaml
+        kubeconfig: '${{ secrets.KUBECONFIG }}'
