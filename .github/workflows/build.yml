@@ -133,6 +133,6 @@ jobs:
           --set=app.name=${{ env.APP_NAME }} \
           --set=image.tag=${{ steps.get_version.outputs.VERSION }} \
           --set=image.repository=${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }} \
-          --set=imagePullSecrets={'name:regcred'} \
+          --set="mychart.imagePullSecrets[0].name=regcred"
           --values=./helm/nodejs-app/values.yaml
         kubeconfig: '${{ secrets.KUBECONFIG }}'
