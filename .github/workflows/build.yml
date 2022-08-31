@@ -88,17 +88,17 @@ jobs:
       id: vars
       run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
-    - name: Update Image Tag in values.yaml
-      uses: fjogeleit/yaml-update-action@main
-      with:
-        valueFile: 'helm/nodejs-app/values.yaml'
-        updateFile: true
-        propertyPath: 'image.tag'
-        value: ${{ steps.get_version.outputs.VERSION }}
-        branch: ${{ steps.vars.outputs.short_ref }}
-        masterBranchName: main
-        message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
-        createPR: false
+    # - name: Update Image Tag in values.yaml
+    #   uses: fjogeleit/yaml-update-action@main
+    #   with:
+    #     valueFile: 'helm/nodejs-app/values.yaml'
+    #     updateFile: true
+    #     propertyPath: 'image.tag'
+    #     value: ${{ steps.get_version.outputs.VERSION }}
+    #     branch: ${{ steps.vars.outputs.short_ref }}
+    #     masterBranchName: main
+    #     message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
+    #     createPR: false
 
     - name: Update Chart App Version
       uses: fjogeleit/yaml-update-action@main
@@ -124,6 +124,15 @@ jobs:
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
         createPR: false
 
-    #TODO: Deploy
-    #-name: Deploy helm chart
+    - name: 'Deploy to K8s'
+      uses: 'deliverybot/helm@v1'
+      with:
+        release: 'nodejs-app'
+        namespace: 'github-actions-deploy'
+        chart: 'nodejs-app'
+        token: '${{ github.token }}'
+        values: |
+          image.tag: ${{ steps.get_version.outputs.VERSION }}
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
