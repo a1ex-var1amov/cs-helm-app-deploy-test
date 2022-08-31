@@ -84,6 +84,10 @@ jobs:
     - name: Push the Image
       run: docker push ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.VERSION }}
 
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
     - name: Update values.yaml - tag
       uses: fjogeleit/yaml-update-action@main
       with:
@@ -91,12 +95,14 @@ jobs:
         updateFile: true
         propertyPath: 'image.tag'
         value: ${{ steps.get_version.outputs.VERSION }}
-        branch: ${{ steps.get_version.outputs.VERSION }}
+        branch: ${{ steps.vars.outputs.short_ref }}
         masterBranchName: main
         # targetBranch: dev
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
         createPR: false
         # labels: test
+
+
     #TODO: Deploy
     #-name: Deploy helm chart
 
