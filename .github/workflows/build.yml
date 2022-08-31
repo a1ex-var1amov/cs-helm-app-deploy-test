@@ -87,12 +87,19 @@ jobs:
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'helm/nodejs-app/values.yaml'
-        propertyPath: 'backend.version'
+        propertyPath: 'image.tag'
         value: ${{ steps.image.outputs.version }}
-        branch: deployment/${{ steps.image.outputs.version }}
-        targetBranch: development
-        createPR: true
         message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
 
+    - name: Update Image Version in the related HelmChart values.yaml
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'helm/nodejs-app/values.yaml'
+        propertyPath: 'image.tag'
+        value: ${{ steps.image.outputs.version }}
+        branch: releases/${{ steps.image.outputs.version }}
+        targetBranch: dev
+        createPR: true
+        message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
 #TODO: Deploy
 
