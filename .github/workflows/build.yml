@@ -40,6 +40,7 @@ jobs:
 #        labels: |
 #          org.opencontainers.image.title=${{ env.APP_NAME }}
 
+# Trigger it
 
     - name: Create Tag
       id: create_tag
