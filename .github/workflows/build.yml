@@ -89,8 +89,9 @@ jobs:
         valueFile: 'helm/nodejs-app/values.yaml'
         propertyPath: 'image.tag'
         value: ${{ steps.get_version.outputs.VERSION }}
-        branch: releases/${{ steps.get_version.outputs.VERSION }}
-        targetBranch: dev
+        branch: dev/${{ steps.get_version.outputs.VERSION }}
+        targetBranch: releases/${{ steps.get_version.outputs.VERSION }}
+        token: ${{ secrets.REGISTRY_PASSWORD }}
         createPR: true
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
 #TODO: Deploy
