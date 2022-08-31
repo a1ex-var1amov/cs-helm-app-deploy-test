@@ -126,6 +126,7 @@ jobs:
 
     - name: 'Deploy to K8s'
       uses: 'deliverybot/helm@v1'
+      if: success()
       with:
         release: 'nodejs-app'
         namespace: 'github-actions-deploy'
