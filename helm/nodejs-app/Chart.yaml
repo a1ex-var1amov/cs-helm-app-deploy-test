@@ -3,4 +3,4 @@ name: nodejs-app
 description: A Helm chart for Kubernetes
 type: application
 version: v0.0.21
-appVersion: 1.16.0
+appVersion: v0.0.21
