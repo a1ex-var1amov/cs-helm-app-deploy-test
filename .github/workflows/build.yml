@@ -62,6 +62,8 @@ jobs:
       uses: remorses/bump-version@js
       with:
         version_file: ./VERSION
+      env:
+        GITHUB_TOKEN: ${{ secrets.REGISTRY_PASSWORD }}
 
     - name: Download Linter
       run: curl -LO "https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64"
