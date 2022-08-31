@@ -9,7 +9,7 @@ on:
     #   - '.gitignore'
     tags:
       #- '^v[0-9]+\.[0-9]+\.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+'
 env:
   SYSDIG_URL: https://us2.app.sysdig.com
   APP_NAME: my-node-test
@@ -88,7 +88,7 @@ jobs:
       id: vars
       run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
-    - name: Update values.yaml - tag
+    - name: Update Image Tag in values.yaml
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'helm/nodejs-app/values.yaml'
@@ -97,11 +97,32 @@ jobs:
         value: ${{ steps.get_version.outputs.VERSION }}
         branch: ${{ steps.vars.outputs.short_ref }}
         masterBranchName: main
-        # targetBranch: dev
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
         createPR: false
-        # labels: test
 
+    - name: Update Chart App Version
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'helm/nodejs-app/Chart.yaml'
+        updateFile: true
+        propertyPath: 'version'
+        value: ${{ steps.get_version.outputs.VERSION }}
+        branch: ${{ steps.vars.outputs.short_ref }}
+        masterBranchName: main
+        message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
+        createPR: false
+
+    - name: Update Chart App Version
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'helm/nodejs-app/Chart.yaml'
+        updateFile: true
+        propertyPath: 'appVersion'
+        value: ${{ steps.get_version.outputs.VERSION }}
+        branch: ${{ steps.vars.outputs.short_ref }}
+        masterBranchName: main
+        message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
+        createPR: false
 
     #TODO: Deploy
     #-name: Deploy helm chart
