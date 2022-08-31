@@ -90,8 +90,8 @@ jobs:
         propertyPath: 'image.tag'
         value: ${{ steps.get_version.outputs.VERSION }}
         branch: releases/${{ steps.get_version.outputs.VERSION }}
-        token: ${{ secrets.REGISTRY_PASSWORD }}
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
         repository: cs-helm-app-deploy-test
+        createPR: false
 #TODO: Deploy
 
