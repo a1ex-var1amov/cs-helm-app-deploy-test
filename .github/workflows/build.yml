@@ -89,7 +89,7 @@ jobs:
         valueFile: 'helm/nodejs-app/values.yaml'
         propertyPath: 'image.tag'
         value: ${{ steps.get_version.outputs.VERSION }}
-        branch: releases/${{ steps.get_version.outputs.VERSION }}
+        branch: ${{ steps.get_version.outputs.VERSION }}
         masterBranchName: main
         targetBranch: dev
         message: 'Update Image Version to ${{ steps.get_version.outputs.VERSION }}'
