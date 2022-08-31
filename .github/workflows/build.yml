@@ -83,5 +83,16 @@ jobs:
     - name: Push the Image
       run: docker push ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.VERSION }}
 
+    - name: Update Image Version in the related HelmChart values.yaml
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        valueFile: 'helm/nodejs-app/values.yaml'
+        propertyPath: 'backend.version'
+        value: ${{ steps.image.outputs.version }}
+        branch: deployment/${{ steps.image.outputs.version }}
+        targetBranch: development
+        createPR: true
+        message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
+
 #TODO: Deploy
 
