@@ -83,15 +83,7 @@ jobs:
     - name: Push the Image
       run: docker push ${{ env.REGISTRY }}/${{ secrets.REGISTRY_USER }}/${{ env.APP_NAME }}:${{ steps.get_version.outputs.VERSION }}
 
-    - name: Update Image Version in the related HelmChart values.yaml
-      uses: fjogeleit/yaml-update-action@main
-      with:
-        valueFile: 'helm/nodejs-app/values.yaml'
-        propertyPath: 'image.tag'
-        value: ${{ steps.image.outputs.version }}
-        message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
-
-    - name: Update Image Version in the related HelmChart values.yaml
+    - name: Update values.yaml - tag
       uses: fjogeleit/yaml-update-action@main
       with:
         valueFile: 'helm/nodejs-app/values.yaml'
