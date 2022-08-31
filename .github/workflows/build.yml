@@ -9,7 +9,7 @@ on:
     #   - '.gitignore'
     tags:
       #- '^v[0-9]+\.[0-9]+\.[0-9]+'
-      - '[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 env:
   SYSDIG_URL: https://us2.app.sysdig.com
   APP_NAME: my-node-test
@@ -36,6 +36,10 @@ jobs:
           type=raw,priority=100,enable=${{ github.event_name == 'push' }},value=${{ steps.get_version.outputs.VERSION }}
         labels: |
           org.opencontainers.image.title=${{ env.APP_NAME }}
+
+    - name: Get the Current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: Download Linter
       run: curl -LO "https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64"
